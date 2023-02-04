@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(uuid())
+  firstname String
+  lastname  String
+  email     String      @unique
+  password  String
+  phlebitis Phlebitis[]
+  operation Operation[]
+  session   Session[]
+}
+
+model Patient {
+  hn        String
+  an        String
+  firstname String
+  lastname  String
+  age       Int
+  phlebitis Phlebitis[]
+  operation Operation[]
+
+  @@id([hn, an])
+}
+
+model Phlebitis {
+  id        Int     @id @default(autoincrement())
+  hn        String
+  an        String
+  patient   Patient @relation(fields: [hn, an], references: [hn, an])
+  grade     Int
+  nursecare String
+  date      Int
+  userId    String
+  createdBy User    @relation(fields: [userId], references: [id])
+}
+
+model Operation {
+  id        Int      @id @default(autoincrement())
+  hn        String
+  an        String
+  date      Int
+  patient   Patient  @relation(fields: [hn, an], references: [hn, an])
+  mfd       DateTime @db.Time()
+  exp       Int
+  userId    String
+  createdBy User     @relation(fields: [userId], references: [id])
+}
+
+model Session {
+  session String   @id @default(uuid())
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
+  date    DateTime @default(now())
+}

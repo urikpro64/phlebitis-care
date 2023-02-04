@@ -2,8 +2,27 @@ import { Container } from '@/components/common/Container';
 import Image from 'next/image';
 import Logo from '@/public/logo.png';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const HomePage = () => {
+  const route = useRouter();
+
+  const getLoginstatus = async () => {
+    const result = await fetch("/api/user/isLogin", {
+      method: "GET",
+      credentials: "include"
+    }).then(result =>
+      result.json()
+    );
+    console.log(result);
+    if (result && result.isLogin) {
+      route.push("/welcome");
+    }
+    return false;
+  }
+
+  const isLogin = getLoginstatus();
+
   return (
     <Container>
       <div className="h-full flex flex-col justify-center items-center">

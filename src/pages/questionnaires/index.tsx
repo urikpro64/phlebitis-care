@@ -18,7 +18,7 @@ const QuestionnairesPage = () => {
       <div className="h-full flex flex-col justify-center items-center">
         <div className="w-full p-6">
           <div className="flex flex-col items-center p-8 bg-primary rounded-lg">
-            <div className="text-white text-xl mb-6">แบบสอบถาม</div>
+            <div className="text-white text-xl mb-6">แบบประเมิน</div>
 
             {questionnaires && questionnaires.map((questionnaire) => (
               <Link
@@ -33,11 +33,11 @@ const QuestionnairesPage = () => {
         </div>
 
         <div className="flex flex-row space-x-4">
-          <Link href="/welcome" className="px-4 py-2 text-white bg-primary rounded-lg">
+          <Link href="/menu" className="px-4 py-2 text-white bg-primary rounded-lg">
             ย้อนกลับ
           </Link>
-          <Link href="/result" className="px-4 py-2 text-white bg-primary rounded-lg">
-            ผลการประเมิน
+          <Link href={`/questionnaires/` + "1"} className="px-4 py-2 text-white bg-primary rounded-lg">
+            เริ่มประเมิน
           </Link>
         </div>
       </div>

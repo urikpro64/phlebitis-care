@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  phlebitis-mysql:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=phlebitis-app
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=1234
+      - MYSQL_ROOT_PASSWORD=thisisrootpassword
+    volumes:
+      - phlebitis-db:/var/lib/mysql
+volumes:
+  phlebitis-db:

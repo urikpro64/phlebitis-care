@@ -5,20 +5,57 @@ import Logo from '@/public/logo.png';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { User } from '@/pages/api/user/types';
+import { Spinner } from '@/components/common/Spinner';
+import { PatientRequest } from '@/pages/api/patient/types';
 
 const WelcomePage = () => {
   const route = useRouter();
 
   const [user, setUser] = useState<User>();
+  const [hn, setHn] = useState<string>();
+  const [an, setAn] = useState<string>();
 
   useEffect(() => {
-    fetch("/api/user/getUser", {
+    fetch("/api/user/getByCookies", {
       credentials: "include"
     })
       .then((response) => response.json())
       .then((data) => setUser(data))
       .catch((error) => { console.log(error) });
   }, []);
+
+  if (!user) {
+    return (
+      <Container>
+        <div className="h-full flex justify-center items-center">
+          <Spinner className="w-10 h-10 text-white animate-spin" />
+        </div>
+      </Container>
+    );
+  }
+
+  const submitPatient = async () => {
+    if(!hn || !an){
+      return
+    }
+
+    const patientRequest:PatientRequest = {
+      hn:hn,
+      an:an
+    }
+    
+    const submitResult = await fetch("/api/patient/", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(patientRequest)
+    }).then(response => response.json());
+
+    if(submitResult.isSelectPatient){
+      route.push('/personal');
+    }
+  }
 
   const logout = async () => {
     const result = await fetch("/api/user/logout")
@@ -44,13 +81,17 @@ const WelcomePage = () => {
             <div className="w-full flex flex-col space-y-2">
               <div className="flex flex-row items-center space-x-4">
                 <label className="text-white">HN</label>
-                <input className="w-full rounded-md px-2 py-1">
+                <input className="w-full rounded-md px-2 py-1" id="hn" name="hn" type="text" onChange={
+                  (e) => { setHn(e.currentTarget.value) }
+                }>
                 </input>
               </div>
 
               <div className="flex flex-row items-center space-x-4">
                 <label className="text-white">AN</label>
-                <input className="w-full rounded-md px-2 py-1">
+                <input className="w-full rounded-md px-2 py-1" id="an" name="an" type="text" onChange={
+                  (e) => { setAn(e.currentTarget.value) }
+                }>
                 </input>
               </div>
             </div>
@@ -61,9 +102,9 @@ const WelcomePage = () => {
           <button onClick={e => logout()} className="px-4 py-2 text-white bg-primary rounded-lg">
             ย้อนกลับ
           </button>
-          <Link href="/personal" className="px-4 py-2 text-white bg-primary rounded-lg">
+          <button onClick={e => submitPatient()} className="px-4 py-2 text-white bg-primary rounded-lg">
             ถัดไป
-          </Link>
+          </button>
         </div>
       </div>
     </Container>

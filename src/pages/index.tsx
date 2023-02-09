@@ -3,25 +3,22 @@ import Image from 'next/image';
 import Logo from '@/public/logo.png';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const HomePage = () => {
   const route = useRouter();
-
-  const getLoginstatus = async () => {
-    const result = await fetch("/api/user/isLogin", {
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  useEffect(() => {
+    fetch("/api/user/isLogin", {
       method: "GET",
       credentials: "include"
-    }).then(result =>
-      result.json()
-    );
-    console.log(result);
-    if (result && result.isLogin) {
-      route.push("/welcome");
-    }
-    return false;
+    })
+    .then(result => result.json())
+    .then(result => setIsLogin(result.isLogin));
+  })
+  if (isLogin) {
+    route.push("/welcome");
   }
-
-  const isLogin = getLoginstatus();
 
   return (
     <Container>

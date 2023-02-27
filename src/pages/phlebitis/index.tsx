@@ -1,5 +1,5 @@
 import { Container } from '@/components/common/Container';
-import { Questionnaire } from '@/pages/api/questionnaires';
+import { Questionnaire } from '@/pages/api/phlebitis';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -7,12 +7,12 @@ const QuestionnairesPage = () => {
   const [questionnaires, setQuestionnaires] = useState<Questionnaire[] | null>(null);
 
   useEffect(() => {
-    fetch('/api/questionnaires')
+    fetch('/api/phlebitis')
       .then((response) => response.json())
       .then((data) => setQuestionnaires(data))
       .catch((error) => {});
   }, []);
-
+  
   return (
     <Container>
       <div className="h-full flex flex-col justify-center items-center">
@@ -23,7 +23,7 @@ const QuestionnairesPage = () => {
             {questionnaires && questionnaires.map((questionnaire) => (
               <Link
                 key={questionnaire.id}
-                href={`/questionnaires/` + questionnaire.id}
+                href={`/phlebitis/` + questionnaire.id}
                 className="w-full px-2 py-1 bg-white text-black text-center text-lg rounded-lg"
               >
                 {questionnaire.name}
@@ -36,7 +36,7 @@ const QuestionnairesPage = () => {
           <Link href="/menu" className="px-4 py-2 text-white bg-primary rounded-lg">
             ย้อนกลับ
           </Link>
-          <Link href={`/questionnaires/` + "1"} className="px-4 py-2 text-white bg-primary rounded-lg">
+          <Link href={`/phlebitis/` + "1"} className="px-4 py-2 text-white bg-primary rounded-lg">
             เริ่มประเมิน
           </Link>
         </div>

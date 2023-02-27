@@ -13,7 +13,7 @@ export default async function handler(
     const { body } = request;
     const registerData: RegisterData = body;
     
-    let user: Prisma.UserCreateInput = {
+    const user: Prisma.UserCreateInput = {
       firstname: registerData.firstname,
       lastname: registerData.lastname,
       email: registerData.email,

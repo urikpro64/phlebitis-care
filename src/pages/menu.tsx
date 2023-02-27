@@ -10,67 +10,68 @@ import Menu5 from '@/public/menu5.png';
 const MenuPage = () => {
   return (
     <Container>
-      <div className="h-full flex flex-col justify-center items-center">
+      <div className="h-full flex flex-col justify-center items-center m-4 space-y-2">
 
-        <div className="flex flex-row">
-          <div className="w-full p-3">
-            <Link href="/operation">
-            <div className="flex flex-col h-full items-center justify-center p-8 bg-primary rounded-lg">
-              <div className="w-32 h-32 mb-2 p-4 rounded-full bg-white shadow-lg">
-                <Image src={Menu1} alt="" className="" />
+        <div className="w-full flex flex-row space-x-2">
+          <Link href="/operation" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
+            <div className="flex flex-col items-center justify-center space-y-2 m-4">
+              <div className="w-28 h-28 p-3 bg-white rounded-full">
+                <Image src={Menu1} alt="" className="p-1" />
               </div>
-              <div className="text-white text-xl text-center">หัตถการ</div>
-            </div>
-            </Link>
-          </div>
-          
-          <div className="w-full p-3">
-            <Link href="/questionnaires">
-            <div className="flex flex-col h-full items-center justify-center p-8 bg-primary rounded-lg">
-              <div className="w-32 h-32 mb-2 p-4 rounded-full bg-white shadow-lg">
-                <Image src={Menu2} alt="" className="object-scale-down w-20 m-2" />
+              <div className="text-white text-xl text-center">
+                หัตถการ
               </div>
-              <div className="text-white text-xl text-center">แบบประเมิน phlebitis</div>
             </div>
-            </Link>
-          </div>
+          </Link>
+
+          <Link href="/phlebitis" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
+            <div className="flex flex-col items-center justify-center space-y-2 m-4">
+              <div className="w-28 h-28 p-3 bg-white rounded-full">
+                <Image src={Menu2} alt="" className="p-2" />
+              </div>
+              <div className="text-white text-xl text-center">
+                แบบประเมิน phlebitis
+              </div>
+            </div>
+          </Link>
         </div>
 
-        <div className="flex flex-row">
-          <div className="w-full p-3">
-          <Link href="/history">
-            <div className="flex flex-col h-full items-center justify-center p-8 bg-primary rounded-lg">
-              <div className="w-32 h-32 mb-2 p-4 rounded-full bg-white shadow-lg">
-                <Image src={Menu3} alt="" className="" />
+        <div className="w-full flex flex-row space-x-2">
+          <Link href="/history" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
+            <div className="flex flex-col items-center justify-center space-y-2 m-4">
+              <div className="w-28 h-28 p-3 bg-white rounded-full">
+                <Image src={Menu3} alt="" className="p-1" />
               </div>
-              <div className="text-white text-xl text-center">ประวัติการประเมินย้อนหลัง</div>
+              <div className="text-white text-xl text-center">
+                ประวัติการประเมินย้อนหลัง
+              </div>
             </div>
-            </Link>
-          </div>
+          </Link>
 
-          <div className="w-full p-3">
-          <Link href="">
-            <div className="flex flex-col h-full items-center justify-center p-8 bg-primary rounded-lg">
-              <div className="w-32 h-32 mb-2 p-4 rounded-full bg-white shadow-lg">
+          <Link href="" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
+            <div className="flex flex-col items-center justify-center space-y-2 m-4">
+              <div className="w-28 h-28 p-3 bg-white rounded-full">
                 <Image src={Menu4} alt="" className="" />
               </div>
-              <div className="text-white text-xl text-center">แก้ไขข้อมูล</div>
+              <div className="text-white text-xl text-center">
+                แก้ไขข้อมูล
+              </div>
             </div>
-            </Link>
-          </div>
+          </Link>
         </div>
 
-        <div className="flex flex-row">
-          <div className="w-full p-3">
-          <Link href="/dashboard">
-            <div className="flex flex-col  items-center justify-center p-8 bg-primary rounded-lg">
-              <div className="w-32 h-32 mb-2 p-4 rounded-full bg-white shadow-lg">
-                <Image src={Menu5} alt="" className="" />
+        <div className="w-full flex flex-row space-x-2">
+          <Link href="/dashboard" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
+            <div className="flex flex-col items-center justify-center space-y-2 m-4">
+              <div className="w-28 h-28 p-3 bg-white rounded-full">
+                <Image src={Menu5} alt="" className="p-1" />
               </div>
-              <div className="text-white text-xl text-center">สรุปผล</div>
+              <div className="text-white text-xl text-center">
+                สรุปผล
+              </div>
             </div>
-            </Link>
-          </div>
+          </Link>
+
         </div>
 
         <div className="flex flex-col items-center space-y-2 mt-3">

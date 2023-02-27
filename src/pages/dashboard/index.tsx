@@ -36,7 +36,7 @@ const OperationResultsPage = () => {
           <div className="flex flex-col items-center p-8 space-y-2 bg-primary rounded-lg">
             <div className="text-white text-xl mb-2">สรุปผลรายวัน</div>
             <div className="flex flex-col">
-                <input className="rounded-md px-2 py-1" placeholder='วัน/เดือน/ปี(พ.ศ.)'>
+                <input className="rounded-md px-2 py-1" type="date" placeholder='วัน/เดือน/ปี(พ.ศ.)'>
                 </input>
               </div>
           </div>

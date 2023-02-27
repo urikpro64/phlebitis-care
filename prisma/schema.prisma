@@ -39,8 +39,7 @@ model Phlebitis {
   an        String
   patient   Patient @relation(fields: [hn, an], references: [hn, an])
   grade     Int
-  nursecare String
-  date      Int
+  date      DateTime
   userId    String
   createdBy User    @relation(fields: [userId], references: [id])
 }
@@ -61,5 +60,6 @@ model Session {
   session String   @id @default(uuid())
   userId  String
   user    User     @relation(fields: [userId], references: [id])
-  date    DateTime @default(now())
+  date    DateTime
+  expired DateTime
 }

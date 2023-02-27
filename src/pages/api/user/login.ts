@@ -23,10 +23,15 @@ export default async function handler(
     }
     else {
       bcrypt.compare(loginData.password, userData.password, async (err, res) => {
+        const dateNow = new Date();
+        const expired = new Date();
+        expired.setDate(dateNow.getDate()+7);
         if (res) {
           const createSession = await prisma.session.create({
             data: {
-              userId: userData.id
+              userId: userData.id,
+              date: dateNow,
+              expired: expired,
             }
           });
           response.setHeader('set-cookie',`session=${createSession.session}; path=/; httponly;`);

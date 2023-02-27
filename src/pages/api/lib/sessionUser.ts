@@ -2,7 +2,7 @@ import { getCookie } from '@/pages/api/lib/cookie-repo';
 import { prisma } from '@/pages/api/lib/prisma';
 import { User } from '@/pages/api/user/types';
 
-const hasSession = (cookies: string) => {
+export const hasSession = (cookies: string) => {
   return cookies.includes("session=");
 }
 
@@ -10,7 +10,7 @@ export const getSession = (cookies: string) => {
   return getCookie(cookies, "session");
 }
 
-export const getUserBySession = async (session: string) => {
+export const getUserBySession = async (session: string):Promise<User | null> => {
   let user: User | undefined = await prisma.session.findUnique({
     where: {
       session: session
@@ -27,14 +27,14 @@ export const getUserBySession = async (session: string) => {
     }
   }).then(data => data?.user);
   if (!user) {
-    return {};
+    return null;
   }
   return user;
 }
 
-export const getUserByCookies = async (cookies: string) => {
+export const getUserByCookies = async (cookies: string):Promise<User | null> => {
   if (!hasSession(cookies)) {
-    return {};
+    return null;
   }
   const session = getSession(cookies);
   const user = await getUserBySession(session);

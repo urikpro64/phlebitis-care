@@ -1,4 +1,4 @@
-import { mockQuestionnaires, Questionnaire } from '@/pages/api/questionnaires';
+import { mockQuestionnaires, Questionnaire } from '@/pages/api/phlebitis';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(

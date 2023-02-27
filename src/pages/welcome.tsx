@@ -19,10 +19,15 @@ const WelcomePage = () => {
     fetch("/api/user/getByCookies", {
       credentials: "include"
     })
-      .then((response) => response.json())
+      .then((data) => {
+        if(data.status == 404){
+          route.push("/");
+        }
+        return data.json();
+      })
       .then((data) => setUser(data))
       .catch((error) => { console.log(error) });
-  }, []);
+  }, [route]);
 
   if (!user) {
     return (
@@ -34,16 +39,17 @@ const WelcomePage = () => {
     );
   }
 
+
   const submitPatient = async () => {
-    if(!hn || !an){
+    if (!hn || !an) {
       return
     }
 
-    const patientRequest:PatientRequest = {
-      hn:hn,
-      an:an
+    const patientRequest: PatientRequest = {
+      hn: hn,
+      an: an
     }
-    
+
     const submitResult = await fetch("/api/patient/", {
       method: "POST",
       headers: {
@@ -52,7 +58,7 @@ const WelcomePage = () => {
       body: JSON.stringify(patientRequest)
     }).then(response => response.json());
 
-    if(submitResult.isSelectPatient){
+    if (submitResult.isSelectPatient) {
       route.push('/personal');
     }
   }

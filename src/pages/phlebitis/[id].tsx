@@ -1,28 +1,28 @@
 import { Container } from '@/components/common/Container';
 import { Spinner } from '@/components/common/Spinner';
-import { Questionnaire } from '@/pages/api/questionnaires';
+import { Questionnaire } from '@/pages/api/phlebitis';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 const QuestionnairePage = () => {
   const router = useRouter();
   const { id } = router.query;
-  
+
   const [questionnaire, setQuestionnaire] = useState<Questionnaire | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const QUESTION_PER_PAGE = 8;
   const QUESTION_LENGTH = questionnaire ? questionnaire?.questions.length : 0;
-  const LAST_PAGE_INDEX = Math.ceil(QUESTION_LENGTH/QUESTION_PER_PAGE)-1;
-  const [result, setResult] = useState<Array<boolean>>(Array(8).fill(false)); 
+  const LAST_PAGE_INDEX = Math.ceil(QUESTION_LENGTH / QUESTION_PER_PAGE) - 1;
+  const [result, setResult] = useState<Array<boolean>>(Array(8).fill(false));
 
   useEffect(() => {
     if (!id) return;
-    fetch(`/api/questionnaires/${id}`)
+    fetch(`/api/phlebitis/${id}`)
       .then((response) => response.json())
       .then((data) => setQuestionnaire(data))
       .catch((error) => { });
   }, [id]);
-  
+
   if (!questionnaire) {
     return (
       <Container>
@@ -32,7 +32,7 @@ const QuestionnairePage = () => {
       </Container>
     );
   }
-  
+
   const getAllCurrentQuestion = () => {
     const startQuestion = currentPage * QUESTION_PER_PAGE;
     const stopQuestion = startQuestion + QUESTION_PER_PAGE;
@@ -42,40 +42,36 @@ const QuestionnairePage = () => {
 
   const toPreviousPage = () => {
     if (currentPage > 0) {
-      setCurrentPage(currentPage-1);
+      setCurrentPage(currentPage - 1);
     }
     else {
       router.push('/menu');
     }
   };
 
-  const toNextPage = () => {
+  const toNextPage = async () => {
     if (currentPage < LAST_PAGE_INDEX) {
-      setCurrentPage(currentPage+1);
+      setCurrentPage(currentPage + 1);
     }
     else {
-      var grade:number = 0;
-      var nursecare:string = '';
-      if ((result[2] || result[3]) == true) {
-        grade = 4;
-        nursecare = "เปลี่ยน IV site ประคบเย็นเพื่อลดอาการปวด ประคบร้อนเพื่อลดอาการบวม รายงานแพทย์ รายงานอุบัติการณ์ & Monitor";
-      }
-      else if (result[1] == true) {
-        grade = 3;
-        nursecare = "เปลี่ยน IV site ประคบเย็นเพื่อลดอาการปวด ประคบร้อนเพื่อลดอาการบวม รายงานแพทย์ รายงานอุบัติการณ์ & Monitor";
-      }
-      else if (result[4] == true) {
-        grade = 0;
-        nursecare = "Observe IV site & Monitor";
-      }
+      const submitResult = await fetch("/api/phlebitis/result", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ result: result })
+      }).then(response => response.json())
 
-      router.push({
-        pathname: '/history/phlebitis/1/nursecare',
-        query: {
-          grade: grade,
-          nursecare: nursecare
-        }
-      });
+      console.log(submitResult);
+      if(submitResult.status == 200){
+        router.push({
+          pathname: '/phlebitis/history/nursecare',
+          query: {
+            id:submitResult.data.id
+          }
+        });
+      }
     }
   };
 
@@ -104,16 +100,17 @@ const QuestionnairePage = () => {
         <div className="space-y-4">
           {/* <div>{result+''}</div> */}
           {getAllCurrentQuestion().map((question, index) => {
-            const id = (index+currentPage*QUESTION_PER_PAGE);
+            const id = (index + currentPage * QUESTION_PER_PAGE);
             const elementKey = "question" + id;
             return (
               <div key={elementKey} className="flex flex-row space-x-2 w-full">
-                <input type="checkbox" id={id.toString()} onChange={onSelect} checked={result[id]}/>
+                <input type="checkbox" id={id.toString()} onChange={onSelect} checked={result[id]} />
                 <div className="flex w-full bg-blue-200 rounded-3xl text-xl font-mono p-3">{question}</div>
               </div>
-          )})}
+            )
+          })}
         </div>
-        
+
         <div className="flex flex-col items-center mb-32 space-y-6">
           <div className="flex flex-row space-x-2">
           </div>

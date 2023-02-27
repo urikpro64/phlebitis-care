@@ -8,9 +8,12 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
   "dependencies": {
     "@next/font": "13.1.1",
-    "@prisma/client": "^4.9.0",
+    "@prisma/client": "^4.10.1",
     "@types/bcrypt": "^5.0.0",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",

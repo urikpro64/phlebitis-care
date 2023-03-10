@@ -48,10 +48,11 @@ model Operation {
   id        Int      @id @default(autoincrement())
   hn        String
   an        String
-  date      Int
+  date      DateTime
   patient   Patient  @relation(fields: [hn, an], references: [hn, an])
-  mfd       DateTime @db.Time()
-  exp       Int
+  mfd       String
+  position  String
+  exp       DateTime
   userId    String
   createdBy User     @relation(fields: [userId], references: [id])
 }

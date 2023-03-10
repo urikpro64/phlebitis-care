@@ -1,30 +1,34 @@
 import { Container } from '@/components/common/Container';
-import Image from 'next/image';
-import Link from 'next/link';
-import Logo from '@/public/logo.png';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { User } from '@/pages/api/user/types';
 import { Spinner } from '@/components/common/Spinner';
 import { PatientRequest } from '@/pages/api/patient/types';
+import { User } from '@/pages/api/user/types';
+import Logo from '@/public/logo.png';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const WelcomePage = () => {
   const route = useRouter();
-
   const [user, setUser] = useState<User>();
   const [hn, setHn] = useState<string>();
   const [an, setAn] = useState<string>();
 
   useEffect(() => {
+    fetch("/api/user/isLogin", {
+      method: "GET",
+      credentials: "include"
+    })
+      .then(result => result.json())
+      .then(result => {
+        if (!result.isLogin) {
+          route.push("/")
+        }
+      });
+
     fetch("/api/user/getByCookies", {
       credentials: "include"
     })
-      .then((data) => {
-        if(data.status == 404){
-          route.push("/");
-        }
-        return data.json();
-      })
+      .then((data) => data.json())
       .then((data) => setUser(data))
       .catch((error) => { console.log(error) });
   }, [route]);
@@ -38,7 +42,6 @@ const WelcomePage = () => {
       </Container>
     );
   }
-
 
   const submitPatient = async () => {
     if (!hn || !an) {
@@ -72,7 +75,7 @@ const WelcomePage = () => {
       route.push('/');
     }
   }
-
+  
   return (
     <Container>
       <div className="h-full flex flex-col justify-center items-center">

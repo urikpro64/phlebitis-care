@@ -1,6 +1,8 @@
 import { Container } from '@/components/common/Container';
 import Image from 'next/image';
 import Link from 'next/link';
+import Menu1 from '@/public/menu1.png';
+import Menu2 from '@/public/menu2.png';
 import Logo from '@/public/logo.png';
 
 const HistoryPage = () => {
@@ -9,10 +11,10 @@ const HistoryPage = () => {
       <div className="h-full flex flex-col justify-center items-center m-4">
 
         <div className="w-full flex flex-row space-x-2">
-          <Link href="/history/operation" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
+          <Link href="/operation/history" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
             <div className="flex flex-col items-center justify-center space-y-2 m-4">
               <div className="w-28 h-28 p-3 bg-white rounded-full">
-                <Image src={Logo} alt="" className="p-1" />
+                <Image src={Menu1} alt="" className="p-1" />
               </div>
               <div className="text-white text-xl text-center">
                 หัตถการ
@@ -23,7 +25,7 @@ const HistoryPage = () => {
           <Link href="/phlebitis/history" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
             <div className="flex flex-col items-center justify-center space-y-2 m-4">
               <div className="w-28 h-28 p-3 bg-white rounded-full">
-                <Image src={Logo} alt="" className="p-2" />
+                <Image src={Menu2} alt="" className="p-2 ml-1" />
               </div>
               <div className="text-white text-xl text-center">
                 แบบประเมิน phlebitis

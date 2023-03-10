@@ -1,23 +1,25 @@
 import { Container } from '@/components/common/Container';
 import { Spinner } from '@/components/common/Spinner';
-import { Phlebitis } from '@/pages/api/phlebitis/types';
+import { OperationResponse } from '@/pages/api/operation/types';
+import { DashboardGrade } from '@/pages/dashboard/types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const PhlebitisHistoryPage = () => {
+const DashboardGradePage = () => {
   const router = useRouter();
-  const [results, setResults] = useState<Array<Phlebitis>>();
-
+  const { date ,grade } = router.query
+  const [results, setResults] = useState<Array<DashboardGrade>>();
+  console.log(date, grade);
   useEffect(() => {
-    fetch("/api/phlebitis/history/", {
+    fetch(`/api/dashboard/${date}/${grade}`, {
       method: "GET",
       credentials: "include"
     })
       .then((response) => response.json())
       .then((data) => setResults(data))
       .catch((error) => { });
-  }, []);
+  }, [date,grade]);
 
   if (!results) {
     return (
@@ -30,24 +32,27 @@ const PhlebitisHistoryPage = () => {
   }
 
   const showHistory = () => {
-    if(results.length == 0){
+    if (results.length == 0) {
       return (
         <div>ไม่เจอ</div>
       )
     }
     return (
       results.map((result, index) => {
-        const formattedDate = new Date(result.date).toLocaleString('th-TH');
+        const mdfDate = new Date(result.date).toLocaleDateString('th-TH');
         return (
           <Link className="w-full" key={index} href={{
-            pathname: 'history/nursecare',
+            pathname: '/phlebitis/history/nursecare',
             query: {
               id: result.id,
             }
           }}>
             <div className="flex flex-row space-x-2 bg-blue-200 px-2 py-2 rounded-md">
-              <div>Grade: {result.grade}</div>
-              <div>{formattedDate}</div>
+              <div className="flex flex-row space-x-2">
+                <div>{result.patient.firstname}</div>
+                <div>{result.patient.lastname}</div>
+                <div>({result.patient.hn} {result.patient.an})</div>
+              </div>
             </div>
           </Link>
         )
@@ -60,16 +65,17 @@ const PhlebitisHistoryPage = () => {
       <div className="h-full flex flex-col justify-center items-center">
         <div className="w-full p-6 ">
           <div className="flex flex-col items-center p-8 space-y-2 bg-primary rounded-lg">
-            <div className="text-white text-xl mb-2 ">ผลการประเมิน phlebitis</div>
+            <div className="text-white text-xl">รายชื่อ</div>
+            <div className="text-white text-sm mb-4">ผู้มีผลประเมินระดับ {grade}</div>
             <div className="flex flex-col w-full space-y-2 max-h-96 overflow-auto">
-            {showHistory()}
+              {showHistory()}
             </div>
           </div>
         </div>
 
         <div className="flex flex-col items-center space-y-2">
           <div className="flex flex-row space-x-4">
-            <Link href="/history" className="px-4 py-2 text-white bg-primary rounded-lg">
+            <Link href={`/dashboard/${date}`} className="px-4 py-2 text-white bg-primary rounded-lg">
               ย้อนกลับ
             </Link>
           </div>
@@ -79,4 +85,4 @@ const PhlebitisHistoryPage = () => {
   );
 };
 
-export default PhlebitisHistoryPage;
+export default DashboardGradePage;

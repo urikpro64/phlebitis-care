@@ -48,7 +48,7 @@ const MenuPage = () => {
             </div>
           </Link>
 
-          <Link href="" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
+          <Link href="/personal/update" className="w-full flex flex-col bg-primary rounded-lg justify-center items-center">
             <div className="flex flex-col items-center justify-center space-y-2 m-4">
               <div className="w-28 h-28 p-3 bg-white rounded-full">
                 <Image src={Menu4} alt="" className="" />

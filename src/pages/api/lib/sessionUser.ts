@@ -1,12 +1,13 @@
-import { getCookie } from '@/pages/api/lib/cookie-repo';
+import { getCookie, hasCookie } from '@/pages/api/lib/cookie-repo';
 import { prisma } from '@/pages/api/lib/prisma';
 import { User } from '@/pages/api/user/types';
 
 export const hasSession = (cookies: string) => {
-  return cookies.includes("session=");
+  return hasCookie(cookies,"session");
 }
 
 export const getSession = (cookies: string) => {
+  console.log("cookies:",cookies);
   return getCookie(cookies, "session");
 }
 

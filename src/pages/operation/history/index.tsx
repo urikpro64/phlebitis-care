@@ -1,16 +1,16 @@
 import { Container } from '@/components/common/Container';
 import { Spinner } from '@/components/common/Spinner';
-import { Phlebitis } from '@/pages/api/phlebitis/types';
+import { OperationResponse } from '@/pages/api/operation/types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const PhlebitisHistoryPage = () => {
+const OperationHistoryPage = () => {
   const router = useRouter();
-  const [results, setResults] = useState<Array<Phlebitis>>();
+  const [results, setResults] = useState<Array<OperationResponse>>();
 
   useEffect(() => {
-    fetch("/api/phlebitis/history/", {
+    fetch("/api/operation/history/", {
       method: "GET",
       credentials: "include"
     })
@@ -30,24 +30,26 @@ const PhlebitisHistoryPage = () => {
   }
 
   const showHistory = () => {
-    if(results.length == 0){
+    if (results.length == 0) {
       return (
         <div>ไม่เจอ</div>
       )
     }
     return (
       results.map((result, index) => {
-        const formattedDate = new Date(result.date).toLocaleString('th-TH');
+        const mdfDate = new Date(result.date).toLocaleDateString('th-TH');
+        const expDate = new Date(result.exp).toLocaleDateString('th-TH');
         return (
           <Link className="w-full" key={index} href={{
-            pathname: 'history/nursecare',
+            pathname: '/operation/history/result',
             query: {
               id: result.id,
             }
           }}>
             <div className="flex flex-row space-x-2 bg-blue-200 px-2 py-2 rounded-md">
-              <div>Grade: {result.grade}</div>
-              <div>{formattedDate}</div>
+              <div className="flex flex-row space-x-2">
+                <div>MDF: {mdfDate}</div>
+              </div>
             </div>
           </Link>
         )
@@ -60,9 +62,9 @@ const PhlebitisHistoryPage = () => {
       <div className="h-full flex flex-col justify-center items-center">
         <div className="w-full p-6 ">
           <div className="flex flex-col items-center p-8 space-y-2 bg-primary rounded-lg">
-            <div className="text-white text-xl mb-2 ">ผลการประเมิน phlebitis</div>
+            <div className="text-white text-xl mb-2 ">ประวัติการทำหัตถการ</div>
             <div className="flex flex-col w-full space-y-2 max-h-96 overflow-auto">
-            {showHistory()}
+              {showHistory()}
             </div>
           </div>
         </div>
@@ -79,4 +81,4 @@ const PhlebitisHistoryPage = () => {
   );
 };
 
-export default PhlebitisHistoryPage;
+export default OperationHistoryPage;

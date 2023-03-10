@@ -6,14 +6,15 @@ export default async function handler(
   response: NextApiResponse
 ) {
   const cookies = request.headers.cookie;
+  
   if (cookies) {
     const user = await getUserByCookies(cookies);
-    if(user){
-    response.status(200).json(user);
+    if (user) {
+      response.status(200).json(user);
     }
     else {
       response.status(404).json({
-        result: "User not found."
+        result: "User not found.",
       });
     }
   }

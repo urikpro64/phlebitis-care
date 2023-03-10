@@ -1,10 +1,44 @@
 import { Container } from '@/components/common/Container';
+import { OperationRequest } from '@/pages/api/operation/types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 const OperationPage = () => {
   const router = useRouter();
-  const { date, mfd, position, exp} = router.query;
+  const [mfd, setMfd] = useState<string>();
+  const [date, setDate] = useState<string>();
+  const [position, setPosition] = useState<string>();
+
+  const submitOperation = async () => {
+    if(!(date && mfd && position)){
+      return;
+    }
+
+    const operationRequest:OperationRequest = {
+      date:date,
+      mfd:mfd,
+      position:position
+    }
+
+    const submitResult = await fetch("/api/operation", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(operationRequest)
+    }).then(result => result.json());
+    
+    if(submitResult.isSuccess){
+      router.push({
+        pathname:"/operation/history/result",
+        query:{
+          id:submitResult.data.id
+        }
+      });
+    }
+  }
   return (
     <Container>
       <div className="h-full flex flex-col justify-center items-center">
@@ -15,19 +49,25 @@ const OperationPage = () => {
             <div className="w-full flex flex-col space-y-2">
               <div className="flex flex-col">
                 <label className="text-sm text-white font-light">วันที่</label>
-                <input className="rounded-md px-2 py-1" value={date} placeholder="วัน/เดือน/ปี">
+                <input className="rounded-md px-2 py-1 w-full" type="date" onChange={
+                  e => { setDate(e.currentTarget.value) }
+                }>
                 </input>
               </div>
 
               <div className="flex flex-col">
                 <label className="text-sm text-white font-light">MFD</label>
-                <input className="rounded-md px-2 py-1" value={mfd} placeholder="ตัวอย่าง 12.00">
+                <input className="rounded-md px-2 py-1 w-full" type="time" placeholder="ตัวอย่าง 12.00" onChange={
+                  e => { setMfd(e.currentTarget.value) }
+                }>
                 </input>
               </div>
 
               <div className="flex flex-col">
                 <label className="text-sm text-white font-light">ตำแหน่ง</label>
-                <input className="rounded-md px-2 py-1" value={position} placeholder="ระบุตำแหน่ง">
+                <input className="rounded-md px-2 py-1 w-full" placeholder="ระบุตำแหน่ง" onChange={
+                  e => { setPosition(e.currentTarget.value) }
+                }>
                 </input>
               </div>
             </div>
@@ -38,17 +78,11 @@ const OperationPage = () => {
           <Link href="/menu" className="px-4 py-2 text-white bg-primary rounded-lg">
             ย้อนกลับ
           </Link>
-          <Link className="px-4 py-2 text-white bg-primary rounded-lg" href={{
-            pathname: '/history/operation/1/result',
-            query: {
-              date: new Date().toLocaleDateString("th-TH"),
-              mfd: "13.50",
-              position: "หลังมือด้านซ้าย",
-              exp: "23/1/2566"
-            }
+          <button className="px-4 py-2 text-white bg-primary rounded-lg" onClick={() => {
+            submitOperation()
           }}>
             ถัดไป
-          </Link>
+          </button>
         </div>
       </div>
     </Container>

@@ -6,10 +6,17 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
+  const dateNow = new Date();
+  const removeExpiredSession = await prisma.session.deleteMany({
+    where: {
+      expired: {
+        lte: dateNow
+      }
+    }
+  })
   if (request.method == "POST") {
     const { body } = request;
     const loginData: LoginData = body;
-    console.log(loginData);
     const userData: UserData | null = await prisma.user.findUnique({
       where: {
         email: loginData.email
@@ -23,9 +30,8 @@ export default async function handler(
     }
     else {
       bcrypt.compare(loginData.password, userData.password, async (err, res) => {
-        const dateNow = new Date();
         const expired = new Date();
-        expired.setDate(dateNow.getDate()+7);
+        expired.setDate(dateNow.getDate() + 7);
         if (res) {
           const createSession = await prisma.session.create({
             data: {
@@ -34,7 +40,7 @@ export default async function handler(
               expired: expired,
             }
           });
-          response.setHeader('set-cookie',`session=${createSession.session}; path=/; httponly;`);
+          response.setHeader('set-cookie', `session=${createSession.session}; path=/; httponly;`);
           response.status(200).json({
             status: 200,
             isCorrect: res,

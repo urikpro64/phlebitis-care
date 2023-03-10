@@ -1,5 +1,8 @@
-export const hasCookie = (cookies: string, cookie:string):boolean => {
-  if(cookies.includes(cookie)){
+export const hasCookie = (cookies: string|undefined, cookie:string):boolean => {
+  if(!cookies){
+    return false;
+  }
+  else if(cookies.includes(cookie) && getCookie(cookies,"session") != "deleted"){
     return true
   }
   return false

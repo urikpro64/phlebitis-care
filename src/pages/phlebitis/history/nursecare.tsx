@@ -33,15 +33,15 @@ const NursecarePage = () => {
   const { id } = router.query;
   const [phlebitis, setPhlebitis] = useState<Phlebitis>()
 
-  useEffect(()=>{
-    if(!id) return;
+  useEffect(() => {
+    if (!id) return;
     fetch(`/api/phlebitis/history/${id}`)
-    .then(response => response.json())
-    .then(response => setPhlebitis(response))
-    .catch(e => console.log(e));
-  },[id])
+      .then(response => response.json())
+      .then(response => setPhlebitis(response))
+      .catch(e => console.log(e));
+  }, [id])
 
-  if(!phlebitis){
+  if (!phlebitis) {
     return (
       <Container>
         <div className="h-full flex justify-center items-center">

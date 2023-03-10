@@ -7,18 +7,48 @@ import { useEffect, useState } from 'react';
 
 const HomePage = () => {
   const route = useRouter();
-  const [isLogin, setIsLogin] = useState<boolean>(false);
   useEffect(() => {
     fetch("/api/user/isLogin", {
       method: "GET",
       credentials: "include"
     })
-    .then(result => result.json())
-    .then(result => setIsLogin(result.isLogin));
-  })
-  if (isLogin) {
-    route.push("/welcome");
-  }
+      .then(result => result.json())
+      .then(result => {
+        if (result.isLogin) {
+          route.push("/welcome");
+        }
+      });
+  });
+
+  // useEffect(() => {
+  //   const grantNotification = async () => {
+  //     const permission = await window.Notification.requestPermission();
+      
+  //     if (permission !== 'granted') return;
+
+      // new Notification('Phlebitis', {
+      //   body: 'คุณมีนัดตัดขาอีก 5 วัน',
+      //   timestamp: Date.now() + 1_000,
+      //   icon: '/logo.png',
+      // });
+  //   };
+  //   grantNotification();
+  // });
+
+
+  // const grantPermission = async () => {
+  //   const permission = await window.Notification.requestPermission();
+  //   console.log(permission);
+  // };
+
+  // const notify = async (message: string) => {
+  //   const registration = await navigator.serviceWorker.ready;
+  //   registration.showNotification('Phlebitis', {
+  //     body: 'คุณมีนัดตัดขาอีก 5 วัน',
+  //     timestamp: Date.now() + 1_000,
+  //     icon: '/logo.png',
+  //   });
+  // };
 
   return (
     <Container>
@@ -36,6 +66,8 @@ const HomePage = () => {
           <Link href="/register" className="px-4 py-2 text-white bg-primary rounded-lg">
             ลงทะเบียน
           </Link>
+          {/* <button onClick={()=> grantPermission()}>grant</button>
+          <button onClick={()=> notify('yo')}>notify</button> */}
         </div>
       </div>
     </Container>

@@ -6,18 +6,19 @@ export default async function handler(
   response: NextApiResponse
 ) {
   const id = Number.parseInt(request.query.id as string);
-  const phlebitis = await prisma.phlebitis.findUnique({
+  console.log("test:",id);
+  const operation = await prisma.operation.findUnique({
     where:{
       id:id
     }
   })
 
-  if (!phlebitis) {
+  if (!operation) {
     return response.status(404).json({
-      error: 'Phlebitis not found with this id'
+      error: 'Operation not found with this id'
     });
   }
 
-  console.log(phlebitis);
-  response.status(200).json(phlebitis);
+  console.log(operation);
+  response.status(200).json(operation);
 }

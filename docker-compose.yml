@@ -16,7 +16,7 @@ services:
   phlebitis-app:
     build: .
     ports:
-      - "188.166.191.189:3000:3000"
+      - "127.0.0.1:80:3000"
     depends_on:
       - phlebitis-mysql
     volumes:

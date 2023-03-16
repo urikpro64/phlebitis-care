@@ -1,15 +1,13 @@
-FROM node:16
+FROM node:18-alpine3.16
+WORKDIR /app
 
-WORKDIR /phlebitis-app
-
-COPY package*.json ./
-
-RUN yarn
+COPY package.json pnpm-lock.yaml .
+RUN corepack enable
+RUN pnpm install
 
 COPY . .
-RUN npx prisma generate
-RUN yarn build
+RUN pnpm db:generate
+RUN pnpm build
 
 EXPOSE 3000
-
-CMD ["yarn", "product"]
+CMD ["yarn", "start"]

@@ -1,37 +1,28 @@
-version: '3.9'
+version: "3.9"
 services:
-  phlebitis-mysql:
+  mysql:
     image: mysql
     restart: always
-    networks:
-      my-network:
+    ports:
+      - 3306:3306
     environment:
       - MYSQL_DATABASE=phlebitis-app
       - MYSQL_USER=test
       - MYSQL_PASSWORD=1234
       - MYSQL_ROOT_PASSWORD=thisisrootpassword
     volumes:
-      - phlebitis-db:/var/lib/mysql
+      - ./.docker/volume/mysql:/var/lib/mysql
 
-  phlebitis-app:
+  app:
     build: .
     ports:
-      - "127.0.0.1:80:3000"
+      - 80:3000
     depends_on:
-      - phlebitis-mysql
+      - mysql
     volumes:
       - phlebitis-app:/app
     environment:
-      - DATABASE_URL=mysql://test:1234@phlebitis-mysql:3306/phlebitis-app
-    networks:
-      my-network:
+      - DATABASE_URL=mysql://test:1234@mysql:3306/phlebitis-app
 
 volumes:
-  phlebitis-db:
   phlebitis-app:
-
-networks:
-  my-network:
-    driver: bridge
-    driver_opts:
-      com.docker.network.bridge.enable_icc: "true"

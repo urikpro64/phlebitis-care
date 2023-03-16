@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "product": "npx prisma db push && next build && next start"
+    "product": "next build && next start"
   },
   "prisma": {
     "schema": "prisma/schema.prisma"

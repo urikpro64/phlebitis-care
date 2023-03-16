@@ -1,3 +1,4 @@
+import { Dashboard } from '@/pages/api/dashboard/types';
 import { prisma } from '@/pages/api/lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -10,7 +11,7 @@ export default async function handler(
   gte.setHours(gte.getHours()-7);
   const lte = new Date(gte);
   lte.setHours(gte.getHours()+24);
-  const phlebitisHistory = await prisma.phlebitis.findMany({
+  const phlebitisHistory:Array<Dashboard> = await prisma.phlebitis.findMany({
     where: {
       date: {
         gte: gte,

@@ -1,3 +1,4 @@
+import { DashboardGrade } from '@/pages/api/dashboard/types';
 import { prisma } from '@/pages/api/lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -16,7 +17,7 @@ export default async function handler(
   gte.setHours(gte.getHours()-7);
   const lte = new Date(gte);
   lte.setHours(gte.getHours()+24);
-  const phlebitisHistory = await prisma.phlebitis.findMany({
+  const phlebitisHistory:Array<DashboardGrade> = await prisma.phlebitis.findMany({
     where: {
       date: {
         gte: gte,
@@ -27,6 +28,7 @@ export default async function handler(
       patient:true
     }
   })
+  console.log(phlebitisHistory);
   const phlebitisHistoryGrade = phlebitisHistory.filter(phlebitis => phlebitis.grade == +grade);
 
   response.status(200).json(

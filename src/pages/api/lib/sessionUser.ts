@@ -12,7 +12,7 @@ export const getSession = (cookies: string) => {
 }
 
 export const getUserBySession = async (session: string):Promise<User | null> => {
-  let user: User | undefined = await prisma.session.findUnique({
+  let user: User = await prisma.session.findUnique({
     where: {
       session: session
     },
@@ -26,7 +26,7 @@ export const getUserBySession = async (session: string):Promise<User | null> => 
         }
       }
     }
-  }).then(data => data?.user);
+  }).then((data:any) => data?.user);
   if (!user) {
     return null;
   }

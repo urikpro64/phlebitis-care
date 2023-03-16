@@ -4,3 +4,5 @@ import { Phlebitis } from '@/pages/api/phlebitis/types';
 export type DashboardGrade = Phlebitis & {
   patient: Patient
 }
+
+export type Dashboard = Phlebitis

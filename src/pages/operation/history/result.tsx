@@ -66,7 +66,7 @@ const OperationHistoryPage = () => {
         <div className="flex flex-col items-center space-y-2">
           <div className="flex flex-row space-x-4">
             <Link href="./" className="px-4 py-2 text-white bg-primary rounded-lg">
-              ย้อนกลับ
+              ประวัติ
             </Link>
             <Link href="/menu" className="px-4 py-2 text-white bg-primary rounded-lg">
               ไปที่เมนู

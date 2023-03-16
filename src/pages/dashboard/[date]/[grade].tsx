@@ -1,7 +1,7 @@
 import { Container } from '@/components/common/Container';
 import { Spinner } from '@/components/common/Spinner';
 import { OperationResponse } from '@/pages/api/operation/types';
-import { DashboardGrade } from '@/pages/dashboard/types';
+import { DashboardGrade } from '@/pages/api/dashboard/types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';

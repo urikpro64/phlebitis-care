@@ -15,6 +15,7 @@ const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [isCorrect, setIsCorrect] = useState<string>();
   const submitLogin = async () => {
     if (!(email && password)) {
       return;
@@ -37,11 +38,14 @@ const LoginPage = () => {
     if (loginResult && loginResult.isCorrect) {
       router.push("/welcome");
     }
+    else {
+      setIsCorrect("รหัสผ่านหรืออีเมลไม่ถูกต้อง");
+    }
   }
 
   return (
     <Container>
-      <div className="h-full flex flex-col justify-center items-center">
+      <form className="h-full flex flex-col justify-center items-center" onSubmit={submitLogin}>
         <div className="w-full p-6">
           <div className="flex flex-col items-center p-8 bg-primary rounded-lg">
             <div className="text-white text-xl mb-8">เข้าสู่ระบบ</div>
@@ -49,7 +53,6 @@ const LoginPage = () => {
             <div className="w-52 h-52 mb-8 p-4 rounded-full bg-white shadow-lg">
               <Image src={Logo} alt="" className="mt-2" />
             </div>
-
             <div className="w-full flex flex-col space-y-2">
               <div className="flex flex-col">
                 <label className="text-sm text-white font-light">อีเมล</label>
@@ -71,7 +74,10 @@ const LoginPage = () => {
         </div>
 
         <div className="flex flex-col items-center space-y-2">
-          <Link href="/forgetpassword" className="text-red-500">
+          <div className="text-red-500">
+            {isCorrect}
+          </div>
+          <Link href="/forgetpassword" className="text-red-500 hidden">
             ลืมรหัสผ่าน?
           </Link>
           <div className="flex flex-row space-x-4">
@@ -85,7 +91,8 @@ const LoginPage = () => {
             </button>
           </div>
         </div>
-      </div>
+        
+      </form>
     </Container>
   );
 };

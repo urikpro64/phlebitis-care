@@ -32,7 +32,7 @@ const OperationHistoryPage = () => {
   const showHistory = () => {
     if (results.length == 0) {
       return (
-        <div>ไม่เจอ</div>
+        <div className="text-center">ไม่พบประวัติการทำหัตถการ</div>
       )
     }
     return (

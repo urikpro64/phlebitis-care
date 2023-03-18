@@ -34,7 +34,7 @@ const PatientUpdatePage = () => {
   }
 
   const updateData = () => {
-    let patientData:Patient = patient;
+    let patientData: Patient = patient;
     patientData.firstname = firstname ? firstname : patient.firstname;
     patientData.lastname = lastname ? lastname : patient.lastname;
     patientData.age = age ? age : patient.age;
@@ -54,7 +54,7 @@ const PatientUpdatePage = () => {
     })
     console.log(submitResult);
 
-    if(submitResult.status == 200) {
+    if (submitResult.status == 200) {
       router.push("/menu");
     }
   }
@@ -65,11 +65,9 @@ const PatientUpdatePage = () => {
           <div className="flex flex-col items-center p-8 bg-primary rounded-lg">
             <div className="text-center text-white text-xl mb-4">ประวัติส่วนตัว</div>
 
-            <Link href="/profile">
-              <div className="w-52 h-52 mb-8 rounded-full bg-white shadow-lg">
-                <Image src={Profile} alt="" className="" />
-              </div>
-            </Link>
+            <div className="w-52 h-52 mb-8 rounded-full bg-white shadow-lg">
+              <Image src={Profile} alt="" className="" />
+            </div>
 
             <div className="grid grid-cols-2 gap-x-4 gap-y-2">
               <div className="flex flex-col">
@@ -97,7 +95,7 @@ const PatientUpdatePage = () => {
         </div>
 
         <div className="flex flex-row space-x-4">
-          <Link href="/welcome" className="px-4 py-2 text-white bg-primary rounded-lg">
+          <Link href="/menu" className="px-4 py-2 text-white bg-primary rounded-lg">
             ย้อนกลับ
           </Link>
           <button className="px-4 py-2 text-white bg-primary rounded-lg" onClick={e => NewPatient()}>

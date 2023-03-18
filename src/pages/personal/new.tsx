@@ -34,11 +34,11 @@ const NewPatientPage = () => {
   }
 
   const NewPatient = async () => {
-    if(!(firstname && lastname && age)) {
+    if (!(firstname && lastname && age)) {
       return
     }
 
-    const patientData:Patient = {
+    const patientData: Patient = {
       firstname: firstname,
       lastname: lastname,
       hn: patient.hn,
@@ -55,7 +55,7 @@ const NewPatientPage = () => {
     })
     console.log(submitResult);
 
-    if(submitResult.status == 200) {
+    if (submitResult.status == 200) {
       route.push("/menu");
     }
   }
@@ -66,11 +66,9 @@ const NewPatientPage = () => {
           <div className="flex flex-col items-center p-8 bg-primary rounded-lg">
             <div className="text-center text-white text-xl mb-4">ประวัติส่วนตัว</div>
 
-            <Link href="/profile">
-              <div className="w-52 h-52 mb-8 rounded-full bg-white shadow-lg">
-                <Image src={Profile} alt="" className="" />
-              </div>
-            </Link>
+            <div className="w-52 h-52 mb-8 rounded-full bg-white shadow-lg">
+              <Image src={Profile} alt="" className="" />
+            </div>
 
             <div className="grid grid-cols-2 gap-x-4 gap-y-2">
               <div className="flex flex-col">

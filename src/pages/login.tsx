@@ -45,7 +45,7 @@ const LoginPage = () => {
 
   return (
     <Container>
-      <form className="h-full flex flex-col justify-center items-center" onSubmit={submitLogin}>
+      <div className="h-full flex flex-col justify-center items-center">
         <div className="w-full p-6">
           <div className="flex flex-col items-center p-8 bg-primary rounded-lg">
             <div className="text-white text-xl mb-8">เข้าสู่ระบบ</div>
@@ -77,9 +77,6 @@ const LoginPage = () => {
           <div className="text-red-500">
             {isCorrect}
           </div>
-          <Link href="/forgetpassword" className="text-red-500 hidden">
-            ลืมรหัสผ่าน?
-          </Link>
           <div className="flex flex-row space-x-4">
             <Link href="/" className="px-4 py-2 text-white bg-primary rounded-lg">
               ย้อนกลับ
@@ -91,8 +88,7 @@ const LoginPage = () => {
             </button>
           </div>
         </div>
-        
-      </form>
+        </div>
     </Container>
   );
 };
